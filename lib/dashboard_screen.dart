@@ -125,7 +125,7 @@ class DashboardScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       Text(
-                        'Quick Add',
+                        'Add Data',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w300,

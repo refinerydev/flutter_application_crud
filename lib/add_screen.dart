@@ -7,7 +7,27 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
   TextEditingController titleController = TextEditingController();
-  TextEditingController descController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  Future<bool> postData(String title, String description) async {
+    var uri = Uri.parse('http://localhost/crudserver/create.php');
+
+    var req = http.MultipartRequest(
+      'POST',
+      uri,
+    );
+
+    req.fields['title'] = title.toString();
+    req.fields['description'] = description.toString();
+
+    var res = await req.send();
+
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +44,18 @@ class _AddScreenState extends State<AddScreen> {
       );
     }
 
-    Widget descFormInput() {
+    Widget descriptionFormInput() {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
-          controller: descController,
+          controller: descriptionController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           minLines: 1,
           maxLines: 5,
           maxLength: 200,
           decoration: InputDecoration(
-            labelText: 'Description',
+            labelText: 'descriptionription',
             border: OutlineInputBorder(),
           ),
         ),
@@ -44,11 +64,43 @@ class _AddScreenState extends State<AddScreen> {
 
     Widget submitButton() {
       return Container(
-        margin: EdgeInsets.only(bottom: 24.0),
+        margin: EdgeInsets.only(top: 32.0),
         height: 48.0,
         width: double.infinity,
         child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () async {
+              // postData(
+              //   titleController.text,
+              //   descriptionController.text,
+              // );
+
+              var ok = await postData(
+                titleController.text,
+                descriptionController.text,
+              );
+
+              if (!ok) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(
+                      'Failed',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text(
+                      'Success',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              }
+            },
             style: ElevatedButton.styleFrom(
               primary: Colors.green,
             ),
@@ -74,8 +126,7 @@ class _AddScreenState extends State<AddScreen> {
           child: Column(
             children: [
               titleFormInput(),
-              descFormInput(),
-              Spacer(),
+              descriptionFormInput(),
               submitButton(),
             ],
           ),

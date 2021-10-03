@@ -7,11 +7,12 @@ class DataScreen extends StatelessWidget {
       children: [
         Container(
           height: 48.0,
-          child: ElevatedButton(
+          child: ElevatedButton.icon(
             onPressed: () {
               Navigator.pushNamed(context, '/add');
             },
-            child: Text(
+            icon: Icon(Icons.add, size: 16.0),
+            label: Text(
               'Add',
               style: TextStyle(fontSize: 16.0),
             ),
