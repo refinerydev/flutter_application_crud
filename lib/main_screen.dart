@@ -15,7 +15,7 @@ class _MainScreenState extends State<MainScreen> {
         case 0:
           return DashboardScreen();
         case 1:
-          return DashboardScreen();
+          return DataScreen();
         default:
           return DashboardScreen();
       }

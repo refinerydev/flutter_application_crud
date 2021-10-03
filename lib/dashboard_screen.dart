@@ -102,33 +102,38 @@ class DashboardScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                height: 142.0,
-                width: 142.0,
-                margin: EdgeInsets.all(4.0),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.upload,
-                      size: 64.0,
-                      color: Colors.white,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/add');
+                },
+                child: Container(
+                  height: 142.0,
+                  width: 142.0,
+                  margin: EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
                     ),
-                    Text(
-                      'Upload',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w300,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add_circle,
+                        size: 64.0,
                         color: Colors.white,
                       ),
-                    )
-                  ],
+                      Text(
+                        'Quick Add',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ],
