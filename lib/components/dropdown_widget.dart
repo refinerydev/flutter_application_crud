@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class DropdownMenu extends StatefulWidget {
   final List<String> menuItem;
-  final Function(String) onAnswer;
+  final Function(String?) onPressed;
 
-  DropdownMenu({Key? key, required this.menuItem, required this.onAnswer})
+  DropdownMenu({Key? key, required this.menuItem, required this.onPressed})
       : super(key: key);
 
   @override
@@ -12,22 +12,25 @@ class DropdownMenu extends StatefulWidget {
 }
 
 class _DropdownMenuState extends State<DropdownMenu> {
+  // List<String> menuItem = ['One', 'Two', 'Free', 'Four'];
+  late String dropdownValue = widget.menuItem[0];
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton(
-        value: widget.menuItem[0],
-        onChanged: (answerValue) {
-          widget.onAnswer(answerValue.toString());
+        value: dropdownValue,
+        onChanged: (String? newValue) {
+          setState(() {
+            widget.onPressed(newValue);
+            dropdownValue = newValue!;
+          });
         },
-        items: widget.menuItem.map(
-          (e) {
-            return DropdownMenuItem(
-              value: e,
-              child: Text(e),
-            );
-          },
-        ).toList(),
+        items: widget.menuItem.map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
       ),
     );
   }

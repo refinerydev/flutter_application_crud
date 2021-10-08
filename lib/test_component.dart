@@ -36,9 +36,9 @@ class _TestComponentState extends State<TestComponent> {
     Widget titleDropdownMenu() {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
+        padding: EdgeInsets.all(10.0),
         width: double.infinity,
         height: 60,
-        padding: EdgeInsets.all(10.0),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             side: BorderSide(width: 1.0, color: Colors.grey),
@@ -49,10 +49,9 @@ class _TestComponentState extends State<TestComponent> {
         ),
         child: DropdownMenu(
           menuItem: menuItem,
-          onAnswer: (ans) {
+          onPressed: (value) {
             setState(() {
-              title = ans;
-              print(title);
+              title = value;
             });
           },
         ),
@@ -70,7 +69,7 @@ class _TestComponentState extends State<TestComponent> {
           maxLines: 5,
           maxLength: 200,
           decoration: InputDecoration(
-            labelText: 'description',
+            labelText: 'descriptionription',
             border: OutlineInputBorder(),
           ),
         ),
