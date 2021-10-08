@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => MainScreen(),
         '/add': (context) => AddScreen(),
+        '/test': (context) => TestComponent(),
       },
     );
   }

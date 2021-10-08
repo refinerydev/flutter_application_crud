@@ -39,33 +39,38 @@ class DashboardScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                height: 142.0,
-                width: 142.0,
-                margin: EdgeInsets.all(4.0),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.list_alt,
-                      size: 64.0,
-                      color: Colors.white,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/test');
+                },
+                child: Container(
+                  height: 142.0,
+                  width: 142.0,
+                  margin: EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
                     ),
-                    Text(
-                      'Data',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w300,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.widgets,
+                        size: 64.0,
                         color: Colors.white,
                       ),
-                    )
-                  ],
+                      Text(
+                        'Component',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
