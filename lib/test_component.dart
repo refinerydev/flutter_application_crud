@@ -49,6 +49,7 @@ class _TestComponentState extends State<TestComponent> {
         ),
         child: DropdownMenu(
           menuItem: menuItem,
+          hint: 'Choose One...',
           onPressed: (value) {
             setState(() {
               title = value;

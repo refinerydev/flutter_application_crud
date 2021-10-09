@@ -39,12 +39,14 @@ class _AddScreenState extends State<AddScreen> {
       uri,
     );
 
-    var photo = await http.MultipartFile.fromPath('picture_file', image!.path);
+    // var photo = await http.MultipartFile.fromPath('picture_file', image!.path);
 
     req.fields['title'] = title.toString();
     req.fields['description'] = description.toString();
-    req.fields['gardu'] = gardu.toString();
-    req.files.add(photo);
+    // req.fields['gardu'] = gardu.toString();
+    // req.files.add(photo);
+
+    print(image!.path);
 
     var res = await req.send();
 
