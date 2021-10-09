@@ -12,6 +12,16 @@ class _AddScreenState extends State<AddScreen> {
 
   var gardu;
   var kondisi;
+  File? image;
+
+  Future getImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? imagePicked =
+        await _picker.pickImage(source: ImageSource.camera);
+
+    image = File(imagePicked!.path);
+    setState(() {});
+  }
 
   List _kondisiList = [
     "Lunas",
@@ -63,9 +73,6 @@ class _AddScreenState extends State<AddScreen> {
           controller: descriptionController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
-          minLines: 1,
-          maxLines: 5,
-          maxLength: 200,
           decoration: InputDecoration(
             labelText: 'UID/UIW',
             border: OutlineInputBorder(),
@@ -81,9 +88,6 @@ class _AddScreenState extends State<AddScreen> {
           controller: descriptionController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
-          minLines: 1,
-          maxLines: 5,
-          maxLength: 200,
           decoration: InputDecoration(
             labelText: 'UP3',
             border: OutlineInputBorder(),
@@ -99,9 +103,6 @@ class _AddScreenState extends State<AddScreen> {
           controller: descriptionController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
-          minLines: 1,
-          maxLines: 5,
-          maxLength: 200,
           decoration: InputDecoration(
             labelText: 'ULP',
             border: OutlineInputBorder(),
@@ -117,9 +118,6 @@ class _AddScreenState extends State<AddScreen> {
           controller: descriptionController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
-          minLines: 1,
-          maxLines: 5,
-          maxLength: 12,
           decoration: InputDecoration(
             labelText: 'Idpel',
             border: OutlineInputBorder(),
@@ -135,9 +133,6 @@ class _AddScreenState extends State<AddScreen> {
           controller: descriptionController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
-          minLines: 1,
-          maxLines: 5,
-          maxLength: 12,
           decoration: InputDecoration(
             labelText: 'Idpel',
             border: OutlineInputBorder(),
@@ -152,7 +147,6 @@ class _AddScreenState extends State<AddScreen> {
         child: TextFormField(
           controller: garduController,
           keyboardType: TextInputType.text,
-          maxLength: 200,
           decoration: InputDecoration(
             labelText: 'gardu',
             border: OutlineInputBorder(),
@@ -175,7 +169,7 @@ class _AddScreenState extends State<AddScreen> {
         ),
         child: DropdownButtonHideUnderline(
           child: DropdownButton(
-            hint: Text("Select Your Friends"),
+            hint: Text("Pilih Kondisi Pemutusan"),
             value: kondisi,
             items: _kondisiList.map((value) {
               return DropdownMenuItem(
@@ -191,6 +185,46 @@ class _AddScreenState extends State<AddScreen> {
             },
           ),
         ),
+      );
+    }
+
+    Widget takePhoto() {
+      return Container(
+        margin: EdgeInsets.only(top: 24.0),
+        child: image != null
+            ? Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Image.file(
+                    image!,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              )
+            : Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.125,
+                child: TextButton(
+                  onPressed: () async {
+                    await getImage();
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.grey, width: 1),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                    ),
+                  ),
+                  child: Icon(Icons.camera_alt,color: Colors.white,),
+                ),
+              ),
       );
     }
 
@@ -256,18 +290,22 @@ class _AddScreenState extends State<AddScreen> {
         ),
         body: Container(
           margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
-          child: Column(
-            children: [
-              titleFormInput(),
-              unitupiFormInput(),
-              unitapFormInput(),
-              unitupFormInput(),
-              idpelFormInput(),
-              blthFormInput(),
-              garduFormInput(),
-              statusFormInput(),
-              submitButton(),
-            ],
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                titleFormInput(),
+                unitupiFormInput(),
+                unitapFormInput(),
+                unitupFormInput(),
+                idpelFormInput(),
+                blthFormInput(),
+                garduFormInput(),
+                statusFormInput(),
+                takePhoto(),
+                submitButton(),
+              ],
+            ),
           ),
         ));
   }
