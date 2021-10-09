@@ -30,7 +30,8 @@ class _AddScreenState extends State<AddScreen> {
     "Padam Bongkar Meter"
   ];
 
-  Future<bool> postData(String title, String description, String gardu) async {
+  Future<bool> postData(
+      String title, String description, String gardu, File? image) async {
     var uri = Uri.parse('http://localhost/API/restapi/create.php');
 
     var req = http.MultipartRequest(
@@ -38,9 +39,12 @@ class _AddScreenState extends State<AddScreen> {
       uri,
     );
 
+    var photo = await http.MultipartFile.fromPath('picture_file', image!.path);
+
     req.fields['title'] = title.toString();
     req.fields['description'] = description.toString();
     req.fields['gardu'] = gardu.toString();
+    req.files.add(photo);
 
     var res = await req.send();
 
@@ -222,7 +226,10 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                     ),
                   ),
-                  child: Icon(Icons.camera_alt,color: Colors.white,),
+                  child: Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                  ),
                 ),
               ),
       );
@@ -240,11 +247,8 @@ class _AddScreenState extends State<AddScreen> {
               //   descriptionController.text,
               // );
 
-              var ok = await postData(
-                titleController.text,
-                descriptionController.text,
-                garduController.text,
-              );
+              var ok = await postData(titleController.text,
+                  descriptionController.text, garduController.text, image);
 
               if (!ok) {
                 ScaffoldMessenger.of(context).showSnackBar(
