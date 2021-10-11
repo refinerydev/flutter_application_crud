@@ -9,6 +9,8 @@ class _AddScreenState extends State<AddScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController garduController = TextEditingController();
+  TextEditingController latController = TextEditingController();
+  TextEditingController longController = TextEditingController();
 
   var gardu;
   var kondisi;
@@ -46,14 +48,21 @@ class _AddScreenState extends State<AddScreen> {
         _currentPosition = position;
       });
       print(_currentPosition!.latitude);
+      latController =
+          TextEditingController(text: _currentPosition!.latitude.toString());
       print(_currentPosition!.longitude);
+      longController =
+          TextEditingController(text: _currentPosition!.longitude.toString());
     }).catchError((e) {
       print(e);
     });
   }
 
   Future<bool> postData(
-      String title, String description, String gardu, File? image) async {
+    String lat,
+    String long,
+    File? image,
+  ) async {
     var uri = Uri.parse('http://tusbung.informasi-digital.info/create.php');
 
     var req = http.MultipartRequest(
@@ -63,9 +72,8 @@ class _AddScreenState extends State<AddScreen> {
 
     var photo = await http.MultipartFile.fromPath('picture_file', image!.path);
 
-    req.fields['title'] = title.toString();
-    req.fields['description'] = description.toString();
-    // req.fields['gardu'] = gardu.toString();
+    req.fields['lat'] = lat.toString();
+    req.fields['long'] = long.toString();
     req.files.add(photo);
 
     var res = await req.send();
@@ -186,6 +194,40 @@ class _AddScreenState extends State<AddScreen> {
       );
     }
 
+    Widget latFormInput() {
+      return Container(
+        margin: EdgeInsets.only(top: 24.0),
+        child: TextFormField(
+          // enabled: false,
+          readOnly: true,
+          controller: latController,
+          keyboardType: TextInputType.multiline,
+          textInputAction: TextInputAction.newline,
+          decoration: InputDecoration(
+            labelText: 'Latitude',
+            border: OutlineInputBorder(),
+          ),
+        ),
+      );
+    }
+
+    Widget longFormInput() {
+      return Container(
+        margin: EdgeInsets.only(top: 24.0),
+        child: TextFormField(
+          // enabled: false,
+          readOnly: true,
+          controller: longController,
+          keyboardType: TextInputType.multiline,
+          textInputAction: TextInputAction.newline,
+          decoration: InputDecoration(
+            labelText: 'Longitude',
+            border: OutlineInputBorder(),
+          ),
+        ),
+      );
+    }
+
     Widget statusFormInput() {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
@@ -271,8 +313,8 @@ class _AddScreenState extends State<AddScreen> {
             onPressed: () async {
               // _getCurrentLocation();
 
-              var ok = await postData(titleController.text,
-                  descriptionController.text, garduController.text, image);
+              var ok = await postData(
+                  latController.text, longController.text, image);
 
               if (!ok) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -332,6 +374,8 @@ class _AddScreenState extends State<AddScreen> {
                 blthFormInput(),
                 garduFormInput(),
                 statusFormInput(),
+                latFormInput(),
+                longFormInput(),
                 takePhoto(),
                 submitButton(),
               ],
