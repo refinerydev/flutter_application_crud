@@ -108,9 +108,7 @@ class DashboardScreen extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/add');
-                },
+                onTap: () {},
                 child: Container(
                   height: 142.0,
                   width: 142.0,

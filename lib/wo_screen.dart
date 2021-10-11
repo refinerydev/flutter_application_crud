@@ -1,28 +1,19 @@
 part of 'screen.dart';
 
-class DataScreen extends StatefulWidget {
+class WoScreen extends StatefulWidget {
+  final List data;
+  WoScreen({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
   @override
-  _DataScreenState createState() => _DataScreenState();
+  _WoScreenState createState() => _WoScreenState();
 }
 
-class _DataScreenState extends State<DataScreen> {
-  late List data = [];
-
-  getData() async {
-    var uri = Uri.parse('http://tusbung.informasi-digital.info/readall.php');
-
-    var response = await http.get(uri);
-
-    var resBody = json.decode(response.body);
-
-    setState(() {
-      data = resBody;
-    });
-  }
-
+class _WoScreenState extends State<WoScreen> {
   void initState() {
     super.initState();
-    getData();
   }
 
   @override
@@ -33,15 +24,15 @@ class _DataScreenState extends State<DataScreen> {
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
-            children: data.map(
+            children: widget.data.map(
               (item) {
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WoScreen(
-                          data: item['DATA'],
+                        builder: (context) => AddScreen(
+                          wo: item,
                         ),
                       ),
                     );
@@ -57,19 +48,19 @@ class _DataScreenState extends State<DataScreen> {
                       elevation: 2,
                       child: ListTile(
                         leading: Icon(
-                          Icons.data_usage,
+                          Icons.edit,
                           size: 70,
                           color: Colors.white,
                         ),
                         title: Text(
-                          item['KDDK'],
+                          item['KODE_WO'],
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         subtitle: Text(
-                          'WO: 100/100',
+                          item['IDPEL'],
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -85,10 +76,27 @@ class _DataScreenState extends State<DataScreen> {
       );
     }
 
-    return ListView(
-      children: [
-        cardData(),
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('WO List'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
+      body: Container(
+        margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              cardData(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

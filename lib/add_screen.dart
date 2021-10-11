@@ -1,21 +1,26 @@
 part of 'screen.dart';
 
 class AddScreen extends StatefulWidget {
+  final wo;
+
+  AddScreen({
+    Key? key,
+    required this.wo,
+  }) : super(key: key);
+
   @override
   _AddScreenState createState() => _AddScreenState();
 }
 
 class _AddScreenState extends State<AddScreen> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController garduController = TextEditingController();
+  // Form Text Controller
+  TextEditingController unitupiController = TextEditingController();
+  TextEditingController idpelController = TextEditingController();
   TextEditingController latController = TextEditingController();
   TextEditingController longController = TextEditingController();
 
-  var gardu;
-  var kondisi;
+  // Take Photo
   File? image;
-
   Future getImage() async {
     // Photo
     final ImagePicker _picker = ImagePicker();
@@ -29,6 +34,8 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   // Dropdown Menu
+  var gardu;
+  var kondisi;
   List _kondisiList = [
     "Lunas",
     "Padam Sticker",
@@ -58,9 +65,12 @@ class _AddScreenState extends State<AddScreen> {
     });
   }
 
+  // HTTP Post Data
   Future<bool> postData(
     String lat,
     String long,
+    String unitupi,
+    String idpel,
     File? image,
   ) async {
     var uri = Uri.parse('http://tusbung.informasi-digital.info/create.php');
@@ -74,6 +84,8 @@ class _AddScreenState extends State<AddScreen> {
 
     req.fields['lat'] = lat.toString();
     req.fields['long'] = long.toString();
+    req.fields['unitupi'] = unitupi.toString();
+    req.fields['idpel'] = idpel.toString();
     req.files.add(photo);
 
     var res = await req.send();
@@ -88,28 +100,17 @@ class _AddScreenState extends State<AddScreen> {
   void initState() {
     super.initState();
     _getCurrentLocation();
+    unitupiController = TextEditingController(text: widget.wo['UNITUPI']);
+    idpelController = TextEditingController(text: widget.wo['IDPEL']);
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget titleFormInput() {
-      return Container(
-        margin: EdgeInsets.only(top: 24.0),
-        child: TextFormField(
-          controller: titleController,
-          decoration: InputDecoration(
-            labelText: 'Title',
-            border: OutlineInputBorder(),
-          ),
-        ),
-      );
-    }
-
     Widget unitupiFormInput() {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
-          controller: descriptionController,
+          controller: unitupiController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           decoration: InputDecoration(
@@ -124,7 +125,6 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
-          controller: descriptionController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           decoration: InputDecoration(
@@ -139,7 +139,6 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
-          controller: descriptionController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           decoration: InputDecoration(
@@ -154,7 +153,6 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
-          controller: descriptionController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           decoration: InputDecoration(
@@ -169,7 +167,7 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
-          controller: descriptionController,
+          controller: idpelController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           decoration: InputDecoration(
@@ -184,7 +182,6 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
-          controller: garduController,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
             labelText: 'gardu',
@@ -314,7 +311,12 @@ class _AddScreenState extends State<AddScreen> {
               // _getCurrentLocation();
 
               var ok = await postData(
-                  latController.text, longController.text, image);
+                latController.text,
+                longController.text,
+                unitupiController.text,
+                idpelController.text,
+                image,
+              );
 
               if (!ok) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -351,36 +353,36 @@ class _AddScreenState extends State<AddScreen> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Add New Data'),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back),
+      appBar: AppBar(
+        title: Text('Add New Data'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
+      body: Container(
+        margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              unitupiFormInput(),
+              unitapFormInput(),
+              unitupFormInput(),
+              idpelFormInput(),
+              blthFormInput(),
+              garduFormInput(),
+              statusFormInput(),
+              latFormInput(),
+              longFormInput(),
+              takePhoto(),
+              submitButton(),
+            ],
           ),
         ),
-        body: Container(
-          margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                titleFormInput(),
-                unitupiFormInput(),
-                unitapFormInput(),
-                unitupFormInput(),
-                idpelFormInput(),
-                blthFormInput(),
-                garduFormInput(),
-                statusFormInput(),
-                latFormInput(),
-                longFormInput(),
-                takePhoto(),
-                submitButton(),
-              ],
-            ),
-          ),
-        ));
+      ),
+    );
   }
 }
