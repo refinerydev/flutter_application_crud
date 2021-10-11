@@ -294,10 +294,12 @@ class _AddScreenState extends State<AddScreen> {
                     ),
                   ),
                 );
+
+                Navigator.pop(context);
               }
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.green,
+              primary: Colors.blue,
             ),
             child: Text(
               'Save',
