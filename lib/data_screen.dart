@@ -9,7 +9,7 @@ class _DataScreenState extends State<DataScreen> {
   late List data = [];
 
   getData() async {
-    var uri = Uri.parse('http://localhost/crudserver/readall.php');
+    var uri = Uri.parse('http://tusbung.informasi-digital.info/create.php');
 
     var response = await http.get(uri);
 

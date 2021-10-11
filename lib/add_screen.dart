@@ -19,6 +19,7 @@ class _AddScreenState extends State<AddScreen> {
     final ImagePicker _picker = ImagePicker();
     final XFile? imagePicked = await _picker.pickImage(
       source: ImageSource.camera,
+      imageQuality: 25,
     );
 
     image = File(imagePicked!.path);
@@ -62,7 +63,8 @@ class _AddScreenState extends State<AddScreen> {
 
     var photo = await http.MultipartFile.fromPath('picture_file', image!.path);
 
-    req.fields['idpel'] = title.toString();
+    req.fields['title'] = title.toString();
+    req.fields['description'] = description.toString();
     // req.fields['gardu'] = gardu.toString();
     req.files.add(photo);
 
@@ -267,7 +269,7 @@ class _AddScreenState extends State<AddScreen> {
         width: double.infinity,
         child: ElevatedButton(
             onPressed: () async {
-              _getCurrentLocation();
+              // _getCurrentLocation();
 
               var ok = await postData(titleController.text,
                   descriptionController.text, garduController.text, image);
