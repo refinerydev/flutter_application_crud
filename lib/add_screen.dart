@@ -15,14 +15,17 @@ class _AddScreenState extends State<AddScreen> {
   File? image;
 
   Future getImage() async {
+    // Photo
     final ImagePicker _picker = ImagePicker();
-    final XFile? imagePicked =
-        await _picker.pickImage(source: ImageSource.camera);
+    final XFile? imagePicked = await _picker.pickImage(
+      source: ImageSource.camera,
+    );
 
     image = File(imagePicked!.path);
     setState(() {});
   }
 
+  // Dropdown Menu
   List _kondisiList = [
     "Lunas",
     "Padam Sticker",
@@ -30,23 +33,38 @@ class _AddScreenState extends State<AddScreen> {
     "Padam Bongkar Meter"
   ];
 
+  // Position
+  Position? _currentPosition;
+
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+      print(_currentPosition!.latitude);
+      print(_currentPosition!.longitude);
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   Future<bool> postData(
       String title, String description, String gardu, File? image) async {
-    var uri = Uri.parse('http://localhost/API/restapi/create.php');
+    var uri = Uri.parse('http://tusbung.informasi-digital.info/create.php');
 
     var req = http.MultipartRequest(
       'POST',
       uri,
     );
 
-    // var photo = await http.MultipartFile.fromPath('picture_file', image!.path);
+    var photo = await http.MultipartFile.fromPath('picture_file', image!.path);
 
-    req.fields['title'] = title.toString();
-    req.fields['description'] = description.toString();
+    req.fields['idpel'] = title.toString();
     // req.fields['gardu'] = gardu.toString();
-    // req.files.add(photo);
-
-    print(image!.path);
+    req.files.add(photo);
 
     var res = await req.send();
 
@@ -55,6 +73,11 @@ class _AddScreenState extends State<AddScreen> {
     } else {
       return false;
     }
+  }
+
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
   }
 
   @override
@@ -244,10 +267,7 @@ class _AddScreenState extends State<AddScreen> {
         width: double.infinity,
         child: ElevatedButton(
             onPressed: () async {
-              // postData(
-              //   titleController.text,
-              //   descriptionController.text,
-              // );
+              _getCurrentLocation();
 
               var ok = await postData(titleController.text,
                   descriptionController.text, garduController.text, image);
