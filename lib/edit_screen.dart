@@ -124,24 +124,25 @@ class _EditScreenState extends State<EditScreen> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Edit item'),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back),
-          ),
+      appBar: AppBar(
+        title: Text('Edit item'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
         ),
-        body: Container(
-          margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
-          child: Column(
-            children: [
-              titleFormInput(),
-              descriptionFormInput(),
-              submitButton(),
-            ],
-          ),
-        ));
+      ),
+      body: Container(
+        margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
+        child: Column(
+          children: [
+            titleFormInput(),
+            descriptionFormInput(),
+            submitButton(),
+          ],
+        ),
+      ),
+    );
   }
 }

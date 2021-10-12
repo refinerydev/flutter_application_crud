@@ -15,7 +15,7 @@ class _MainScreenState extends State<MainScreen> {
         case 0:
           return DashboardScreen();
         case 1:
-          return DataScreen();
+          return DashboardScreen();
         default:
           return DashboardScreen();
       }
@@ -44,8 +44,8 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.home_filled),
           ),
           BottomNavigationBarItem(
-            label: 'Data',
-            icon: Icon(Icons.table_view_rounded),
+            label: 'Report',
+            icon: Icon(Icons.bar_chart),
           ),
           BottomNavigationBarItem(
             label: 'Setting',

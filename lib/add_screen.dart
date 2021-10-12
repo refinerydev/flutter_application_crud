@@ -15,7 +15,11 @@ class AddScreen extends StatefulWidget {
 class _AddScreenState extends State<AddScreen> {
   // Form Text Controller
   TextEditingController unitupiController = TextEditingController();
+  TextEditingController unitapController = TextEditingController();
+  TextEditingController unitupController = TextEditingController();
   TextEditingController idpelController = TextEditingController();
+  TextEditingController blthContoller = TextEditingController();
+  TextEditingController garduContoller = TextEditingController();
   TextEditingController latController = TextEditingController();
   TextEditingController longController = TextEditingController();
 
@@ -34,9 +38,8 @@ class _AddScreenState extends State<AddScreen> {
   }
 
   // Dropdown Menu
-  var gardu;
-  var kondisi;
-  List _kondisiList = [
+  var status;
+  List _statusList = [
     "Lunas",
     "Padam Sticker",
     "Padam Cabut McB",
@@ -72,6 +75,7 @@ class _AddScreenState extends State<AddScreen> {
     String unitupi,
     String idpel,
     File? image,
+    String status,
   ) async {
     var uri = Uri.parse('http://tusbung.informasi-digital.info/create.php');
 
@@ -86,6 +90,7 @@ class _AddScreenState extends State<AddScreen> {
     req.fields['long'] = long.toString();
     req.fields['unitupi'] = unitupi.toString();
     req.fields['idpel'] = idpel.toString();
+    req.fields['status'] = status.toString();
     req.files.add(photo);
 
     var res = await req.send();
@@ -101,7 +106,11 @@ class _AddScreenState extends State<AddScreen> {
     super.initState();
     _getCurrentLocation();
     unitupiController = TextEditingController(text: widget.wo['UNITUPI']);
+    unitapController = TextEditingController(text: widget.wo['UNITAP']);
+    unitupController = TextEditingController(text: widget.wo['UNITUP']);
     idpelController = TextEditingController(text: widget.wo['IDPEL']);
+    blthContoller = TextEditingController(text: widget.wo['BLTH']);
+    garduContoller = TextEditingController(text: widget.wo['NAMA_GARDU']);
   }
 
   @override
@@ -110,6 +119,7 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
+          readOnly: true,
           controller: unitupiController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
@@ -125,6 +135,8 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
+          readOnly: true,
+          controller: unitapController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           decoration: InputDecoration(
@@ -139,6 +151,8 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
+          readOnly: true,
+          controller: unitupController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           decoration: InputDecoration(
@@ -153,6 +167,8 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
+          readOnly: true,
+          controller: idpelController,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           decoration: InputDecoration(
@@ -167,11 +183,12 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
-          controller: idpelController,
+          readOnly: true,
+          controller: blthContoller,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           decoration: InputDecoration(
-            labelText: 'Idpel',
+            labelText: 'BLTH',
             border: OutlineInputBorder(),
           ),
         ),
@@ -182,9 +199,11 @@ class _AddScreenState extends State<AddScreen> {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
         child: TextFormField(
+          readOnly: true,
+          controller: garduContoller,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            labelText: 'gardu',
+            labelText: 'Gardu',
             border: OutlineInputBorder(),
           ),
         ),
@@ -240,8 +259,8 @@ class _AddScreenState extends State<AddScreen> {
         child: DropdownButtonHideUnderline(
           child: DropdownButton(
             hint: Text("Pilih Kondisi Pemutusan"),
-            value: kondisi,
-            items: _kondisiList.map((value) {
+            value: status,
+            items: _statusList.map((value) {
               return DropdownMenuItem(
                 child: Text(value),
                 value: value,
@@ -249,7 +268,7 @@ class _AddScreenState extends State<AddScreen> {
             }).toList(),
             onChanged: (value) {
               setState(() {
-                kondisi =
+                status =
                     value; //Untuk memberitahu _valFriends bahwa isi nya akan diubah sesuai dengan value yang kita pilih
               });
             },
@@ -303,7 +322,7 @@ class _AddScreenState extends State<AddScreen> {
 
     Widget submitButton() {
       return Container(
-        margin: EdgeInsets.only(top: 32.0),
+        margin: EdgeInsets.only(top: 32.0, bottom: 32.0),
         height: 48.0,
         width: double.infinity,
         child: ElevatedButton(
@@ -316,6 +335,7 @@ class _AddScreenState extends State<AddScreen> {
                 unitupiController.text,
                 idpelController.text,
                 image,
+                status,
               );
 
               if (!ok) {
@@ -374,9 +394,9 @@ class _AddScreenState extends State<AddScreen> {
               idpelFormInput(),
               blthFormInput(),
               garduFormInput(),
-              statusFormInput(),
               latFormInput(),
               longFormInput(),
+              statusFormInput(),
               takePhoto(),
               submitButton(),
             ],

@@ -12,8 +12,15 @@ class WoScreen extends StatefulWidget {
 }
 
 class _WoScreenState extends State<WoScreen> {
+  bool card = true;
+
   void initState() {
     super.initState();
+    if (widget.data.isEmpty) {
+      setState(() {
+        card = false;
+      });
+    }
   }
 
   @override
@@ -92,7 +99,17 @@ class _WoScreenState extends State<WoScreen> {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              cardData(),
+              card
+                  ? cardData()
+                  : Center(
+                      child: Text(
+                        'Tidak ada Data',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),
