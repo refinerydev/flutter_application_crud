@@ -11,6 +11,7 @@ part 'main_screen.dart';
 part 'dashboard_screen.dart';
 part 'data_screen.dart';
 part 'wo_screen.dart';
+part 'wo_list_screen.dart';
 part 'add_screen.dart';
 part 'edit_screen.dart';
 part 'test_component.dart';

@@ -6,6 +6,8 @@ class DataScreen extends StatefulWidget {
 }
 
 class _DataScreenState extends State<DataScreen> {
+  TextEditingController searchController = TextEditingController();
+
   late List data = [];
 
   getData() async {
@@ -27,6 +29,48 @@ class _DataScreenState extends State<DataScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Widget crossing() {
+      return Container(
+        margin: EdgeInsets.only(top: 24.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              height: 48,
+              width: MediaQuery.of(context).size.width - 120,
+              child: TextFormField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: 'Cari Berdasarkan Kode WO',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            Container(
+                height: 48,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            WoListScreen(kodeWo: searchController.text),
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.search,
+                    size: 32,
+                  ),
+                )),
+          ],
+        ),
+      );
+    }
+
     Widget cardData() {
       return Container(
         margin: EdgeInsets.only(top: 24.0),
@@ -98,6 +142,7 @@ class _DataScreenState extends State<DataScreen> {
             margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
             child: Column(
               children: [
+                crossing(),
                 cardData(),
               ],
             ),
