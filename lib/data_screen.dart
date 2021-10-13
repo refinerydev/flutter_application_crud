@@ -36,7 +36,6 @@ class _DataScreenState extends State<DataScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              height: 48,
               width: MediaQuery.of(context).size.width - 120,
               child: TextFormField(
                 controller: searchController,
@@ -47,7 +46,7 @@ class _DataScreenState extends State<DataScreen> {
               ),
             ),
             Container(
-                height: 48,
+                height: 58,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Colors.green,
@@ -63,7 +62,7 @@ class _DataScreenState extends State<DataScreen> {
                   },
                   child: Icon(
                     Icons.search,
-                    size: 32,
+                    size: 28,
                   ),
                 )),
           ],

@@ -67,7 +67,7 @@ class DashboardScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.widgets,
+                        Icons.done,
                         size: 64.0,
                         color: Colors.white,
                       ),
